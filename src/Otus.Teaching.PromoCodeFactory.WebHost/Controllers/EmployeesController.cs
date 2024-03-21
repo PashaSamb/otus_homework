@@ -119,7 +119,14 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         [HttpPut("UpdateEmployee")]
         public async Task<ActionResult<Employee>> UpdateEmployee(EmployeeUpdate employeeDto)
         {
-            return await _employeeService.UpdateEmployee(employeeDto);
+            var employee = await _employeeService.UpdateEmployee(employeeDto);
+
+            if (employee !=null)
+            {
+                return Ok(employee);
+            }
+
+            return BadRequest();          
         }
         /// <summary>
         /// Удалить пользователя
@@ -129,9 +136,15 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Controllers
         [HttpDelete("DeleteEmployee")]
         public async Task<ActionResult> DeleteEmployee(Guid id)
         {
-            await _employeeService.DeleteEmployee(id);
 
-            return Ok();          
+            var employee = await _employeeService.GetEmployeeAsyncbyId(id);
+
+            if (employee != null)
+            {
+                await _employeeService.DeleteEmployee(employee);
+                return Ok();
+            }
+            return BadRequest();       
         }
 
     }

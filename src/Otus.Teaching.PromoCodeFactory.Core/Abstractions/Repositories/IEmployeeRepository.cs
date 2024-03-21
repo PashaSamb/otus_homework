@@ -13,6 +13,6 @@ namespace Otus.Teaching.PromoCodeFactory.Core.Abstractions.Repositories
         Task<Employee> Update (Employee item);
         Task<Employee> GetEmployeeWithRoles (Guid id);
         Task AddRange(ICollection<Employee> employees);
-        Task Delete (Guid id);
+        Task Delete (Employee item);
     }
 }

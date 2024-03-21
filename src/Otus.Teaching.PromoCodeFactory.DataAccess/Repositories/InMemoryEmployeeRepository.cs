@@ -26,15 +26,10 @@ namespace Otus.Teaching.PromoCodeFactory.DataAccess.Repositories
             return employee;
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(Employee item)
         {
-            var  item =  await _dbContext.Employees.Where(x => x.Id == id).FirstOrDefaultAsync();
-
-            if (item != null)
-            {
-                _dbContext.Employees.Remove(item);
-                await _dbContext.SaveChangesAsync();
-            }
+            _dbContext.Employees.Remove(item);
+            await _dbContext.SaveChangesAsync();           
         }
 
         public async Task<Employee> Update(Employee item)

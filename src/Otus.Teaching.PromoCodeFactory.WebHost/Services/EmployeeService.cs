@@ -67,20 +67,33 @@ namespace Otus.Teaching.PromoCodeFactory.WebHost.Services
             return (await _employee.Create(employee));
         }
 
-        public async Task DeleteEmployee(Guid id)
+        public async Task DeleteEmployee(Employee employee)
         {
-            await _employee.Delete(id);
+            await _employee.Delete(employee);
         }
 
         public async Task<Employee> UpdateEmployee (EmployeeUpdate employeeDto)
         {
-            var employee = new Employee();
-            employee.Id = employeeDto.Id;
-            employee.FirstName = employeeDto.FirstName;               
-            employee.LastName = employeeDto.LastName;
-            employee.Email = employeeDto.Email;
-           
-            return await _employee.Update(employee);
+
+            var employee = await _employee.GetByIdAsync(employeeDto.Id);
+
+            if (employee!=null)
+            {
+                employee.Id = employeeDto.Id;
+                employee.FirstName = employeeDto.FirstName;
+                employee.LastName = employeeDto.LastName;
+                employee.Email = employeeDto.Email;
+
+                return await _employee.Update(employee);
+            }
+
+            return null;              
+        }
+
+
+        public async Task<Employee?> GetEmployeeAsyncbyId (Guid id)
+        {
+            return await _employee.GetByIdAsync(id);
         }
 
      /*   public  async Task InitData ()
